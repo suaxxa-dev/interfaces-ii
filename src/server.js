@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(session({
-  secret: 'mercatodo-secret-key-2026',
+  secret: process.env.SESSION_SECRET || 'mercatodo-secret-key-2026',
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -492,8 +492,14 @@ app.get('/api/products', (req, res) => {
    INICIAR SERVIDOR
    ══════════════════════════════════════ */
 (async () => {
-  await db.initDb();
-  app.listen(PORT, () => {
-    console.log(`\n🟢 MERCA TO-DO servidor activo en http://localhost:${PORT}\n`);
-  });
+  try {
+    await db.initDb();
+    console.log('✅ Base de datos inicializada exitosamente');
+    app.listen(PORT, () => {
+      console.log(`\n🟢 MERCA TO-DO servidor activo en http://localhost:${PORT}\n`);
+    });
+  } catch (error) {
+    console.error('❌ Error fatal al inicializar servidor:', error);
+    process.exit(1);
+  }
 })();

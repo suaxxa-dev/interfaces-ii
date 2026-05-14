@@ -17,6 +17,10 @@ let needsSave = false;
 /** Guardar la base de datos al disco (Asíncrono) */
 async function saveDb() {
   if (!db) return;
+  // En Vercel, no permitir escribir a disco (es read-only)
+  if (process.env.VERCEL === '1' || process.env.DISABLE_DB_WRITE === 'true') {
+    return;
+  }
   if (isSaving) {
     needsSave = true;
     return;
