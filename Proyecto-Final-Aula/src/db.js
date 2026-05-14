@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 const path = require('path');
 const fs = require('fs');
 
-const DB_PATH = path.join(__dirname, 'mercatodo.db');
+const DB_PATH = path.join(__dirname, '../data/mercatodo.db');
 
 let db = null;
 
@@ -232,7 +232,7 @@ async function initDb() {
   // Seed — Migrar productos desde JSON si la tabla está vacía
   const prodCount = db.exec("SELECT COUNT(*) FROM productos")[0].values[0][0];
   if (prodCount === 0) {
-    const catalogPath = path.join(__dirname, 'catalogo_data.json');
+    const catalogPath = path.join(__dirname, '../data/catalogo_data.json');
     if (fs.existsSync(catalogPath)) {
       try {
         const catalogJson = JSON.parse(fs.readFileSync(catalogPath, 'utf-8'));

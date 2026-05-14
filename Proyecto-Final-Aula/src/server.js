@@ -27,7 +27,7 @@ app.use(session({
 }));
 
 /* ── Archivos estáticos (HTML, CSS, JS, imágenes) ── */
-app.use(express.static(path.join(__dirname), {
+app.use(express.static(path.join(__dirname, '../public'), {
   extensions: ['html'],
 }));
 
